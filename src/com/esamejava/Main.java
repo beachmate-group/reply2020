@@ -2,6 +2,7 @@ package com.esamejava;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -15,7 +16,9 @@ public class Main {
     static int height;
 
     public static void main(String[] args) throws FileNotFoundException {
-        //readFile();
+        readFile();
+
+        System.out.print(developers.size()+" "+projectManagers.size());
 
         // 1) Lettura del file Simone => produco mappa senza rep
         // 2) Posizionano i repleyer => IN : Matrice(bxh) Desk vuota, => Inserire il replayer giusto in base ai permessi => OUT matrice riempi
@@ -56,7 +59,36 @@ public class Main {
             deskMatrix[i] = deskLine;
         }
 
-        //int devs = scanner.next()
+        int devs = Integer.parseInt(scanner.nextLine());
+        developers = new LinkedList<>();
+
+        for(int i = 0 ; i < devs; i++){
+            String[] devValues = scanner.nextLine().split(" ");
+
+            String company = devValues[0];
+            int bonus = Integer.parseInt(devValues[1]);
+
+            int skillsCount = Integer.parseInt(devValues[2]);
+            HashSet<String> skillsSet = new HashSet<>();
+
+            for(int j = 0; j < skillsCount; j++){
+                skillsSet.add(devValues[j+3]);
+            }
+
+            developers.add(new Replyer(ReplyerType.DEVELOPER, bonus, skillsSet));
+        }
+
+        int pms = Integer.parseInt(scanner.nextLine());
+        projectManagers = new LinkedList<>();
+
+        for(int i = 0 ; i < pms; i++){
+            String[] pmValues = scanner.nextLine().split(" ");
+
+            String company = pmValues[0];
+            int bonus = Integer.parseInt(pmValues[1]);
+
+            projectManagers.add(new Replyer(ReplyerType.PROJECT_MANAGER, bonus, null));
+        }
 
         scanner.close();
     }
